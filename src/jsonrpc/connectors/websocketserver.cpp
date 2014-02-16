@@ -15,43 +15,44 @@
 #include "websocketserver.h"
 #include "mongoose.h"
 
-#define NUMBER_OF_THREADS 						"5"
 
-#define HTTP_GET_METHOD 						"GET"
-#define HTTP_POST_METHOD 						"POST"
+#define NUMBER_OF_THREADS                       "5"
 
-#define WS_HEADER_PROCOTOL 						"Sec-WebSocket-Protocol"
-#define WS_HEADER_VERSION 						"Sec-WebSocket-Version"
-#define WS_HEADER_VERSION_13 					"13"
-#define WS_HEADER_KEY 							"Sec-WebSocket-Key"
+#define HTTP_GET_METHOD                         "GET"
+#define HTTP_POST_METHOD                        "POST"
 
-#define WS_FRAME_LENGTH 						10
-#define WS_FRAME_FIN 							0x80
+#define WS_HEADER_PROCOTOL                      "Sec-WebSocket-Protocol"
+#define WS_HEADER_VERSION                       "Sec-WebSocket-Version"
+#define WS_HEADER_VERSION_13                    "13"
+#define WS_HEADER_KEY                           "Sec-WebSocket-Key"
 
-#define WS_OPCODE_CONTINUATION 					0x00
-#define WS_OPCODE_TEXT 							0x01
-#define WS_OPCODE_BINARY 						0x02
-#define WS_OPCODE_CONN_CLOSE 					0x08
-#define WS_OPCODE_PING 							0x09
-#define WS_OPCODE_PONG 							0x0a
+#define WS_FRAME_LENGTH                         10
+#define WS_FRAME_FIN                            0x80
 
-#define WS_STATUS_CODE_NORMAL_CLOSURE 			1000
-#define WS_STATUS_CODE_GOING_AWAY				1001
-#define WS_STATUS_CODE_TERM_DUE_ERROR			1002
-#define WS_STATUS_CODE_TERM_DUE_CANNOT_ACCEPT	1003
+#define WS_OPCODE_CONTINUATION                  0x00
+#define WS_OPCODE_TEXT                          0x01
+#define WS_OPCODE_BINARY                        0x02
+#define WS_OPCODE_CONN_CLOSE                    0x08
+#define WS_OPCODE_PING                          0x09
+#define WS_OPCODE_PONG                          0x0a
 
-#define WS_PAYLOAD_LENGTH_7BIT 					0x7e
-#define WS_PAYLOAD_LENGTH_16BIT 				0x7fff
-#define WS_PAYLOAD_LENGTH_64BIT 				0x7fffffffffffffff
+#define WS_STATUS_CODE_NORMAL_CLOSURE           1000
+#define WS_STATUS_CODE_GOING_AWAY               1001
+#define WS_STATUS_CODE_TERM_DUE_ERROR           1002
+#define WS_STATUS_CODE_TERM_DUE_CANNOT_ACCEPT   1003
 
-#define WS_DATA_PING							"PING"
-#define WS_DATA_PONG							"PONG"
-#define WS_DATA_PING_PING_LENGTH				4
-#define WS_SEND_PING_DELAY						10
+#define WS_PAYLOAD_LENGTH_7BIT                  0x7e
+#define WS_PAYLOAD_LENGTH_16BIT                 0x7fff
+#define WS_PAYLOAD_LENGTH_64BIT                 0x7fffffffffffffff
 
-#define WS_WS_FRAME_PAYLOAD_LENGTH_INDEX		1
+#define WS_DATA_PING                            "PING"
+#define WS_DATA_PONG                            "PONG"
+#define WS_DATA_PING_PING_LENGTH                4
+#define WS_SEND_PING_DELAY                      10
 
-#define WS_FRAME_PAYLOAD_LENGTH_INDEX 1
+#define WS_WS_FRAME_PAYLOAD_LENGTH_INDEX        1
+
+#define WS_FRAME_PAYLOAD_LENGTH_INDEX           1
 
 namespace jsonrpc
 {

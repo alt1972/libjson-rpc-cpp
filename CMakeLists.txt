@@ -35,7 +35,7 @@ add_subdirectory(src/jsonrpc)
 add_subdirectory(src/test)
 add_subdirectory(src/stubgenerator)
 add_subdirectory(src/example)
-
+add_subdirectory(src/example/websocket)
 
 # uninstall target
 configure_file(

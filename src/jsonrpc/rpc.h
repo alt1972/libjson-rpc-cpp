@@ -17,9 +17,12 @@
 #include "exception.h"
 
 #include "connectors/httpserver.h"
+#include "connectors/websocketserver.h"
 #include "connectors/httpclient.h"
 
 #include "specificationparser.h"
 #include "specificationwriter.h"
+
+#include "debug.h"
 
 #endif /* JSONRPCCPP_H_ */

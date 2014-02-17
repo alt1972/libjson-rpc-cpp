@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <cstring>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 #include "websocketserver.h"
 #include "mongoose.h"

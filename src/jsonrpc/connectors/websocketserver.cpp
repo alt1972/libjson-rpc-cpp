@@ -483,7 +483,7 @@ namespace jsonrpc
                 payload.append(tmp);
             }
             payload.erase(payload.size() -1);
-            jsonrpc::debug_log("[WebsocketServer.SendData] <%d> byte send; payload <%s>", bytesSent, payload.c_str());
+            jsonrpc::debug_log("[WebsocketServer.SendData] <%d> bytes sent; payload <%s>", bytesSent, payload.c_str());
         }
 
         free(buff);

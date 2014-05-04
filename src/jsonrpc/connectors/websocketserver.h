@@ -41,7 +41,7 @@ namespace jsonrpc
              * @param websocketProtocol - string of the supported protocol used for the websocket connection
              * @param enableSpecification - bool that allows the access to the server specification via HTTP GET.
              */
-            WebsocketServer(int port, const std::string& websocketProtocol, bool enableSpecification = true);
+            WebsocketServer(unsigned int port, const std::string& websocketProtocol, bool enableSpecification = true, unsigned int thread = 10);
             virtual ~WebsocketServer();
 
             /**
@@ -64,13 +64,16 @@ namespace jsonrpc
              */
             bool virtual SendResponse(const std::string& response, void* addInfo = NULL);
 
+            bool virtual SendEvent(const std::string& resonse);
+
         private:
 
-            int _port;
+            unsigned int _port;
             std::string _protocol;
             bool _showSpec;
 
             bool _isRunning;
+            unsigned int _numThreads;
             int _connMaintainerThread;
             websocketConnectionList _wsConnections;
 

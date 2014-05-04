@@ -65,6 +65,11 @@ namespace jsonrpc
                 return this->connection->StopListening();
             }
 
+            virtual bool SendEvent(const Json::Value& eventData)
+            {
+            	return this->connection->SendEvent(eventData.asString());
+            }
+
             /**
              * @brief Returns the protocol instance, which can be used to get all registered Methods.
              * @return

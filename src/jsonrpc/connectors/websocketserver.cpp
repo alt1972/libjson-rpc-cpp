@@ -17,8 +17,6 @@
 #include "mongoose.h"
 
 
-#define NUMBER_OF_THREADS                       "5"
-
 #define HTTP_GET_METHOD                         "GET"
 #define HTTP_POST_METHOD                        "POST"
 
@@ -232,12 +230,13 @@ namespace jsonrpc
         return true;
     }
 
-    WebsocketServer::WebsocketServer(int port, const std::string& websocketProtocol, bool enableSpecification)
+    WebsocketServer::WebsocketServer(unsigned int port, const std::string& websocketProtocol, bool enableSpecification, unsigned int threads)
             : AbstractServerConnector(),
               _port(port),
               _protocol(websocketProtocol),
               _showSpec(enableSpecification),
               _isRunning(false),
+              _numThreads(threads),
               _connMaintainerThread(-1),
               _ctx(NULL)
     {
@@ -248,8 +247,6 @@ namespace jsonrpc
     {
         this->StopListening();
     }
-
-
 
     void WebsocketServer::SendPingBroadcast()
     {
@@ -295,6 +292,7 @@ namespace jsonrpc
         jsonrpc::debug_log("[WebsocketServer] Starting listening on port <%d>", this->_port);
 
         char port[6];
+        char threads[6];
         struct mg_callbacks wsCallbacks;
         memset(&wsCallbacks, 0, sizeof(wsCallbacks));
         wsCallbacks.websocket_connect = websocketConnectCallback;
@@ -302,10 +300,14 @@ namespace jsonrpc
         wsCallbacks.websocket_ready = websocketReadyCallback;
         wsCallbacks.begin_request = websocketConnectionRequestCallback;
 
-        sprintf(port, "%d", this->_port);
+        snprintf(port, sizeof(port), "%d", this->_port);
+        snprintf(threads, sizeof(threads), "%d", this->_numThreads);
         const char *options[] =
-        { "listening_ports", port, "num_threads", NUMBER_OF_THREADS,
-        NULL };
+        {
+        		"listening_ports", port,
+        		"num_threads", threads,
+        		NULL
+        };
 
         this->_ctx = mg_start(&wsCallbacks, this, options);
         this->StartMaintenanceThread();
@@ -332,6 +334,21 @@ namespace jsonrpc
     {
         struct mg_connection* conn = (struct mg_connection*) addInfo;
         return this->SendData(conn, WS_OPCODE_TEXT, response);
+    }
+
+    bool WebsocketServer::SendEvent(const std::string& event)
+    {
+    	bool result = false;
+
+    	websocketConnectionList::iterator it;
+    	std::vector<struct mg_connection*> deathList;
+    	for (it = this->_wsConnections.begin(); it != this->_wsConnections.end(); ++it)
+    	{
+    		result &= this->SendData(it->conn, WS_OPCODE_TEXT, event);
+
+    	}
+
+    	return result;
     }
 
     /**
@@ -418,7 +435,7 @@ namespace jsonrpc
         //add FIN, OPCODE etc.
         buff[0] = WS_FRAME_FIN + (opCode & 0x0f);
 
-        //we have to check if the payload fits in the 7 bit payload field
+        //we have to check ifbuffLength the payload fits in the 7 bit payload field
         if (buffLength < WS_PAYLOAD_LENGTH_7BIT)
         {
 
@@ -536,8 +553,8 @@ namespace jsonrpc
         }
         jsonrpc::debug_log("[WebsocketServer] Stopping client connection maintenance thread");
         //TODO
-        //we there's no mg_stop_thread method. It is attached to mongoose itself
-        //- Option 1: create own own thread with pthread
+        //there's no mg_stop_thread method. It is attached to mongoose itself
+        //- Option 1: create own thread with pthread
         //- Option 2: just keep the worker thread even when we have no clients.
     }
 

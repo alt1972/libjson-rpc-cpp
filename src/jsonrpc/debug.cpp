@@ -24,8 +24,6 @@ namespace jsonrpc
 	static void _debug_log_default(const char *format, ...)
 	{
 
-
-
 	  if (jsonrpc::debug_enabled())
 	  {
 		va_list args;

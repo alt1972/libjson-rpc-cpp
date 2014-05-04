@@ -43,6 +43,13 @@ namespace jsonrpc
                     void* addInfo = NULL) = 0;
 
             /**
+             * This method sends an event message to all connected clients. This method can be useful to notify all connected clients of a system event or anything else.
+             * @param data - the event message or serialized data that should be send to the client
+             * @return returns true on if the event has been sent, otherwise this method returns false.
+             */
+            bool virtual SendEvent(const std::string& data) = 0;
+
+            /**
              * This method must be called, when a request is recognised. It will do everything else for you (including sending the response).
              * @param request - the request that has been recognised.
              * @param addInfo - additional Info, that the Connector might need for responding.

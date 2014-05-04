@@ -40,6 +40,8 @@ namespace jsonrpc
             bool virtual SendResponse(const std::string& response,
                     void* addInfo = NULL);
 
+            bool virtual SendEvent(const std::string& data);
+
         private:
             int port;
             struct mg_context *ctx;

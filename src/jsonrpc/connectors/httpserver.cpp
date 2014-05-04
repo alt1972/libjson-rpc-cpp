@@ -146,4 +146,9 @@ namespace jsonrpc
         }
     }
 
+    bool HttpServer::SendEvent(const std::string& data)
+    {
+    	return false;
+    }
+
 } /* namespace jsonrpc */

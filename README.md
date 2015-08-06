@@ -1,4 +1,4 @@
-This is a fork of the awesome lobjson-rpc-cpp library (https://github.com/cinemast/libjson-rpc-cpp). The main target of this fork is to add a WebSocket support in order to establish a bidirectional connection between the server and its clients.
+This is a fork of the awesome libjson-rpc-cpp library (https://github.com/cinemast/libjson-rpc-cpp). The main target of this fork is to add a WebSocket support in order to establish a bidirectional connection between the server and its clients.
 
 Get the source:
 
